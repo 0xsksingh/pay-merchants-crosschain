@@ -11,8 +11,8 @@ export const siteConfig = {
     },
   ],
   links: {
-    twitter: "https://twitter.com/shadcn",
-    github: "https://github.com/shadcn/ui",
+    twitter: "https://twitter.com/0xkamal7",
     docs: "https://ui.shadcn.com",
   },
+  crosspayaddress: "0x6328a8e5529dd322A5583b5EEFfc48a2dc2c3A0f"
 }
