@@ -3,7 +3,6 @@ import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { configureChains, createConfig, mainnet, sepolia, WagmiConfig } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
 
-import { useColorMode } from '@chakra-ui/react'
 import { ReactNode, useEffect, useState } from 'react'
 import { Web3Modal } from '@web3modal/react'
 import { optimism, polygon } from 'viem/chains'
@@ -17,6 +16,7 @@ const ETH_CHAINS = [mainnet, sepolia, polygon, optimism]
 
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? '';
 
+console.log(projectId,"project id")
 if (!projectId) {
   console.warn('Please provide a walletconnect env variable')
 }

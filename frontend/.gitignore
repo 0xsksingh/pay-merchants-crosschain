@@ -13,6 +13,9 @@ coverage
 out/
 build
 
+bun.lockb
+.gitpod.yml
+
 # misc
 .DS_Store
 *.pem
