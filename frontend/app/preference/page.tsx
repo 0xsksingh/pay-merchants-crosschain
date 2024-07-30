@@ -13,7 +13,7 @@ import TabSet from '@/components/TabSet'
 import { configureChains } from 'wagmi'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 
-export const CHAINS: Record<number, chains.Chain> = {
+const CHAINS: Record<number, chains.Chain> = {
   [137]: chains.polygon,
   [1]: chains.mainnet,
   [1101]: chains.polygonZkEvm,

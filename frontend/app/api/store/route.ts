@@ -1,4 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+
+import { NextRequest , NextResponse } from 'next/server'
 import { Web3Storage } from 'web3.storage'
 
 function getAccessToken(): string {
@@ -9,18 +10,22 @@ function makeStorageClient(): Web3Storage {
   return new Web3Storage({ token: getAccessToken() })
 }
 
-export default async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest, res: NextResponse) {
   if (req.method === 'POST') {
     try {
       const storageClient = makeStorageClient()
-      const data = req.body.data
-      const file = new File([data], 'data.txt', { type: 'text/plain' })
+      const { body } = await req.json()
+
+      const file = new File([body], 'data.txt', { type: 'text/plain' })
       const cid = await storageClient.put([file])
-      res.status(200).json({ cid })
+      return NextResponse.json({cid})
+      // res.status(200).json({ cid })
     } catch (error) {
-      res.status(500).json({ error: 'Error storing data' })
+      NextResponse.json({ error: 'Error storing data' })
+      // res.status(500).json({ error: 'Error storing data' })
     }
   } else {
-    res.status(405).json({ error: 'Only POST requests are allowed' })
+    NextResponse.json({ error: 'Only POST requests are allowed' })
+    // res.status(405).json({ error: 'Only POST requests are allowed' })
   }
 }

@@ -6,11 +6,11 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import { createPublicClient, createWalletClient, custom, http } from 'viem'
-import { CHAINS } from './preference/page'
 import { ethers } from 'ethers'
 import { ERC20_ABI, SPOKEPOOL_ABI, TOKEN_ADDRESS_BY_SYMBOL, ZKBOB_DIRECT_DEPOSIT_ABI } from 'misc'
 import { configureChains } from 'wagmi'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
+import * as chains from 'viem/chains';
 
 type AssetType = 'WETH' | 'SDAI' | 'BTC' | 'USDC' | 'USDT'
 
@@ -23,6 +23,14 @@ interface TransactionStatus {
     actionFunction: () => void
   }
 }
+
+const CHAINS: Record<number, chains.Chain> = {
+  [137]: chains.polygon,
+  [1]: chains.mainnet,
+  [1101]: chains.polygonZkEvm,
+  [100]: chains.gnosis,
+}
+
 
 const chainIdByName: Record<string, number> = {
   ethereum: 1,

@@ -1,4 +1,4 @@
-# Cross Pay
+# Cross Pay 
 
 **Connecting Merchants' Preferences with Customers' Choices through Cross-Chain Payments**
 
@@ -6,7 +6,7 @@
 
 Cross Pay is an innovative cross-chain payment solution designed to bridge the gap between merchants and customers by providing a seamless, preference-based payment experience. By integrating with multiple blockchain plugins and utilizing the power of the SwapKit API and SDK, ThorSwap, ChainFlip, and MayoChain, Cross Pay ensures a secure, efficient, and versatile payment method for all parties involved.
 
-Created for the DoraHacks CrossChain Summer 2024 hackathon by @kamalbuilds, Cross Pay leverages advanced blockchain technology to deliver a comprehensive payment solution that caters to the needs of both merchants and users.
+Cross Pay leverages advanced blockchain technology to deliver a comprehensive payment solution that caters to the needs of both merchants and users.
 
 ## Demo URL
 
