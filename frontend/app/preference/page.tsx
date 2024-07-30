@@ -42,8 +42,6 @@ function memoizeAsync<TArgs extends any[], TResult>(fn: AsyncFunction<TArgs, TRe
 const Merchantpreference: React.FC = () => {
   const [jsonInput, setJsonInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const [attestation, setAttestation] = useState(null)
 
   const getChainDetails = memoizeAsync(async function () {
     const walletClient = createWalletClient({
@@ -57,13 +55,6 @@ const Merchantpreference: React.FC = () => {
     const publicClient = () =>
       configureChains([chain], [alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_PROJECT_ID! })]).publicClient({ chainId: chainId })
 
-    // createPublicClient({
-    //   chain: chain,
-    //   transport: http(),
-    // })
-
-    // configureChains(
-
     const contractAddress = (siteConfig.crosspayaddress as Record<number, `0x${string}`>)[chainId]
     if (!contractAddress) {
       toast.error('Contract not deployed on this network')
@@ -76,8 +67,9 @@ const Merchantpreference: React.FC = () => {
 
   useEffect(() => {
     ;(async function () {
-      const { walletClient, chainId, chain, publicClient, contractAddress, address } = await getChainDetails()
-      const response = await axios.get('/api/wallet-meta', {
+      const { walletClient, chainId, chain, publicClient, contractAddress, address } = await getChainDetails();
+
+      const response = await axios.get('/api/checkwallet', {
         params: {
           userAddress: address,
         },
@@ -94,7 +86,6 @@ const Merchantpreference: React.FC = () => {
               primaryAddress: address,
               preferredAssets: [{ chain: 'ethereum', address: address, symbol: 'ETH' }],
               addresses: [address],
-              attestations: {},
             },
             null,
             2
@@ -179,7 +170,7 @@ const Merchantpreference: React.FC = () => {
       <div className="p-4">
         <h1 className="mb-4 text-2xl font-bold">Configure Merchant Preferences</h1>
         <textarea className="mb-4 h-64 w-full rounded border p-2" value={jsonInput} onChange={(e) => setJsonInput(e.target.value)} />
-        <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={handleSave} disabled={isLoading}>
+        <button className="rounded bg-blue-500 px-4 py-2 text-white" onClick={handleSave} disabled={isLoading}>
           {isLoading ? 'Saving...' : 'Save preferences'}
         </button>
         <ToastContainer

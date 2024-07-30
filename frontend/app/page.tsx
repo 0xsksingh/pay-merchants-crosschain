@@ -424,7 +424,7 @@ export default function Home() {
   return (
     <>
       <TabSet />
-      <div className="mx-auto mb-8 mt-8 max-w-md rounded-lg bg-white p-4 shadow-lg">
+      <div className="mx-auto my-8 max-w-md rounded-lg bg-white p-4 shadow-lg">
         <input
           className="mb-2 w-full rounded border p-2"
           type="text"
@@ -432,14 +432,14 @@ export default function Home() {
           value={paymentDestinationAddress}
           onChange={(e) => setPaymentDestinationAddress(e.target.value)}
         />
-        <div className="flex space-x-2 mb-2">
-          <select className="p-2 border rounded w-1/2" value={paymentAsset} onChange={(e) => setPaymentAsset(e.target.value as AssetType)}>
+        <div className="mb-2 flex space-x-2">
+          <select className="w-1/2 rounded border p-2" value={paymentAsset} onChange={(e) => setPaymentAsset(e.target.value as AssetType)}>
             <option value="WETH">WETH</option>
             <option value="USDC">USDC</option>
             <option value="USDT">USDT</option>
           </select>
           <input
-            className="p-2 border rounded w-1/2"
+            className="w-1/2 rounded border p-2"
             type="number"
             placeholder="Amount"
             value={paymentAmount}
