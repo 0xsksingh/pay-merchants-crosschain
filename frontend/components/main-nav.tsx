@@ -5,6 +5,7 @@ import { NavItem } from "@/types/nav"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
+import { Web3Button } from "@web3modal/react"
 
 interface MainNavProps {
   items?: NavItem[]
@@ -36,6 +37,8 @@ export function MainNav({ items }: MainNavProps) {
           )}
         </nav>
       ) : null}
+
+        <Web3Button icon="hide" label="Connect" />
     </div>
   )
 }
