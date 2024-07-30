@@ -16,8 +16,7 @@ import { alchemyProvider } from 'wagmi/providers/alchemy'
 const CHAINS: Record<number, chains.Chain> = {
   [137]: chains.polygon,
   [1]: chains.mainnet,
-  [1101]: chains.polygonZkEvm,
-  [100]: chains.gnosis,
+  [84531] : chains.baseGoerli
 }
 
 type AsyncFunction<TArgs extends any[], TResult> = (...args: TArgs) => Promise<TResult>
@@ -41,6 +40,9 @@ function memoizeAsync<TArgs extends any[], TResult>(fn: AsyncFunction<TArgs, TRe
 const Merchantpreference: React.FC = () => {
   const [jsonInput, setJsonInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [primaryAddress, setPrimaryAddress] = useState('')
+  const [preferredAssets, setPreferredAssets] = useState([{ chain: 'ethereum', address: '', symbol: 'ETH' }])
+  const [addresses, setAddresses] = useState([''])
 
   const getChainDetails = memoizeAsync(async function () {
     const walletClient = createWalletClient({
@@ -77,6 +79,9 @@ const Merchantpreference: React.FC = () => {
         const jsonData = JSON.parse(response.data.data)
         jsonData.timestamp = new Date().toISOString()
         setJsonInput(JSON.stringify(jsonData, null, 2))
+        setPrimaryAddress(jsonData.primaryAddress)
+        setPreferredAssets(jsonData.preferredAssets)
+        setAddresses(jsonData.addresses)
       } else {
         setJsonInput(
           JSON.stringify(
@@ -90,6 +95,9 @@ const Merchantpreference: React.FC = () => {
             2
           )
         )
+        setPrimaryAddress(address)
+        setPreferredAssets([{ chain: 'ethereum', address: address, symbol: 'ETH' }])
+        setAddresses([address])
       }
     })()
   }, [])
@@ -155,22 +163,112 @@ const Merchantpreference: React.FC = () => {
   }
 
   const handleSave = () => {
-    const data = getData()
-    if (data !== null) {
-      saveData(data)
+    const data = {
+      timestamp: new Date().toISOString(),
+      primaryAddress,
+      preferredAssets,
+      addresses,
     }
+    setJsonInput(JSON.stringify(data, null, 2))
+    saveData(data)
   }
 
+  const handlePreferredAssetChange = (index: number, field: string, value: string) => {
+    const newAssets = [...preferredAssets]
+    newAssets[index] = { ...newAssets[index], [field]: value }
+    setPreferredAssets(newAssets)
+  }
 
+  const handleAddPreferredAsset = () => {
+    setPreferredAssets([...preferredAssets, { chain: '', address: '', symbol: '' }])
+  }
+
+  const handleRemovePreferredAsset = (index: number) => {
+    const newAssets = [...preferredAssets]
+    newAssets.splice(index, 1)
+    setPreferredAssets(newAssets)
+  }
+
+  const handleAddressChange = (index: number, value: string) => {
+    const newAddresses = [...addresses]
+    newAddresses[index] = value
+    setAddresses(newAddresses)
+  }
+
+  const handleAddAddress = () => {
+    setAddresses([...addresses, ''])
+  }
+
+  const handleRemoveAddress = (index: number) => {
+    const newAddresses = [...addresses]
+    newAddresses.splice(index, 1)
+    setAddresses(newAddresses)
+  }
 
   return (
     <>
       <TabSet />
       <div className="p-4">
         <h1 className="mb-4 text-2xl font-bold">Configure Merchant Preferences</h1>
-        <textarea className="mb-4 h-64 w-full rounded border p-2" value={jsonInput} onChange={(e) => setJsonInput(e.target.value)} />
+        <div className="mb-4">
+          <label className="block mb-2 text-sm font-bold">Primary Address</label>
+          <input
+            className="mb-4 w-full rounded border p-2"
+            value={primaryAddress}
+            onChange={(e) => setPrimaryAddress(e.target.value)}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block mb-2 text-sm font-bold">Preferred Assets</label>
+          {preferredAssets.map((asset, index) => (
+            <div key={index} className="mb-2 flex space-x-2">
+              <input
+                className="w-full rounded border p-2"
+                placeholder="Chain"
+                value={asset.chain}
+                onChange={(e) => handlePreferredAssetChange(index, 'chain', e.target.value)}
+              />
+              <input
+                className="w-full rounded border p-2"
+                placeholder="Address"
+                value={asset.address}
+                onChange={(e) => handlePreferredAssetChange(index, 'address', e.target.value)}
+              />
+              <input
+                className="w-full rounded border p-2"
+                placeholder="Symbol"
+                value={asset.symbol}
+                onChange={(e) => handlePreferredAssetChange(index, 'symbol', e.target.value)}
+              />
+              <button className="rounded bg-red-500 px-4 py-2 text-white" onClick={() => handleRemovePreferredAsset(index)}>
+                Remove
+              </button>
+            </div>
+          ))}
+          <button className="rounded bg-green-500 px-4 py-2 text-white" onClick={handleAddPreferredAsset}>
+            Add Asset
+          </button>
+        </div>
+        <div className="mb-4">
+          <label className="block mb-2 text-sm font-bold">Addresses</label>
+          {addresses.map((address, index) => (
+            <div key={index} className="mb-2 flex space-x-2">
+              <input
+                className="w-full rounded border p-2"
+                value={address}
+                onChange={(e) => handleAddressChange(index, e.target.value)}
+              />
+              <button className="rounded bg-red-500 px-4 py-2 text-white" onClick={() => handleRemoveAddress(index)}>
+                Remove
+              </button>
+            </div>
+          ))}
+          <button className="rounded bg-green-500 px-4 py-2 text-white" onClick={handleAddAddress}>
+            Add Address
+          </button>
+        </div>
         <button className="rounded bg-blue-500 px-4 py-2 text-white" onClick={handleSave} disabled={isLoading}>
-          {isLoading ? 'Saving...' : 'Save preferences'}
+          {isLoading ? 'Saving...' : 'Save merchant payment preferences'}
         </button>
         <ToastContainer
           position="bottom-right"
