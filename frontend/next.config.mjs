@@ -4,6 +4,9 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  images: {
+    domains: ["s2.coinmarketcap.com"],
+  },
 }
 
 export default nextConfig

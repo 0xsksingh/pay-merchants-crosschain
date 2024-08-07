@@ -14,9 +14,15 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "^1.0.2",
+    "@ethereum-attestation-service/eas-sdk": "^2.5.0",
+    "@hookform/resolvers": "^3.9.0",
+    "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-select": "^2.1.1",
+    "@radix-ui/react-separator": "^1.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.1",
     "@tailwindcss/forms": "^0.5.7",
-    "axios": "^1.7.3",
     "@tanstack/react-query": "^5.51.21",
     "@walletconnect/web3wallet": "^1.13.0",
     "@web3modal/ethereum": "^2.4.1",
@@ -24,8 +30,10 @@
     "@web3modal/wagmi": "^5.0.11",
     "array-move": "^4.0.0",
     "autoprefixer": "^10.4.14",
+    "axios": "^1.7.3",
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",
+    "cmdk": "1.0.0",
     "ethers": "^6.13.2",
     "framer-motion": "^8.0.2",
     "lucide-react": "0.105.0-alpha.4",
@@ -35,6 +43,7 @@
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.52.2",
     "react-icons": "^4.7.1",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.14.2",
@@ -47,7 +56,8 @@
     "viem": "^2.18.8",
     "wagmi": "^2.12.3",
     "web3": "^4.0.3",
-    "web3.storage": "^4.5.5"
+    "web3.storage": "^4.5.5",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^3.7.2",
