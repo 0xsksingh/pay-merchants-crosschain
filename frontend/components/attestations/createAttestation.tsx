@@ -142,7 +142,7 @@ const CreateAttestation = () => {
   const schemaEncoder = new SchemaEncoder(SchemaType)
 
   const [isLoading, setIsLoading] = React.useState(false);
-  const [attestationUID, setAttestationUID] = React.useState('0xba3d2a2abf1306b3612dbc1530ece8c6c21a7cc66c35945c54f9258c68b7229b');
+  const [attestationUID, setAttestationUID] = React.useState('');
 
   const handleCreateAttestation = async (data: z.infer<typeof FormSchema>) => {
     const eas = new EAS(EASContractAddress)
@@ -441,7 +441,7 @@ const CreateAttestation = () => {
       </Card>
 
 
-      <div className="flex gap-4">
+      {attestationUID && <div className="flex gap-4">
         <p>Attestation Created:</p>
         <p>
           {attestationUID}
@@ -449,7 +449,7 @@ const CreateAttestation = () => {
         <Link target="_blank" href={`https://sepolia.easscan.org/attestation/view/${attestationUID}`}>
           <ExternalLink />
         </Link>
-      </div>
+      </div>}
 
     </div>
   )
