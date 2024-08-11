@@ -1,4 +1,4 @@
-# Cross Pay 
+# Cross Pay Merchants Pay
 
 **Connecting Merchants' Preferences with Customers' Choices through Cross-Chain Payments**
 
@@ -8,7 +8,14 @@ Cross Pay is an innovative cross-chain payment solution designed to bridge the g
 
 Cross Pay leverages advanced blockchain technology to deliver a comprehensive payment solution that caters to the needs of both merchants and users.
 
-## Demo URL
+
+## Contract Deployments via create2  
+
+Base Sepolia - https://base-sepolia.blockscout.com/address/0xC0204113CcC43D83De06191C082ea696C65466f9
+
+Mode Testnet - https://sepolia.explorer.mode.network/address/0xc8E2B6AC668AC47ffE8814E86aDCb966C6AA3d5b
+
+OP Sepolia Testnet - https://optimism-sepolia.blockscout.com/address/0x2AAC535db31DB35D13AECe36Ea7954A2089D55bE
 
 ## Features
 
@@ -22,11 +29,16 @@ Cross Pay leverages advanced blockchain technology to deliver a comprehensive pa
 - **SwapKit API and SDK Integration**: Utilizes SwapKit's robust API and SDK for secure and efficient transaction processing across multiple blockchains.
 - **End-to-End Encryption**: Ensures that all transactions are protected by advanced encryption methods, providing security and peace of mind.
 
-### Plugin Integrations
+### Partner Integrations
 
-- **ThorSwap**: Integrates with ThorSwap to facilitate easy swaps and liquidity provision across different blockchain networks.
-- **ChainFlip**: Uses ChainFlip's technology to enable seamless cross-chain swaps, ensuring users can transact with their preferred tokens without hassle.
-- **MayoChain**: Incorporates MayoChain to leverage its unique features for enhanced transaction speed and reliability.
+- **Innovative Use of Pyth Price Feeds**: 
+
+- Real-Time Data Integration for Secure Payments: In our project, Merchant's Pay, we utilize Pyth's real-time price feeds to ensure that cross-chain payments are accurately and fairly valued at the moment of the transaction. By integrating Pyth’s pull oracle, we can fetch low-latency price data that allows merchants to receive payments in their preferred currency, with confidence that the conversion rates are up-to-date and accurate. This is critical in a volatile market, where real-time data directly impacts the fairness and security of financial transactions.
+
+- Enhancing Trust in Onchain Commerce: By pulling and consuming Pyth price feeds, we enhance the transparency and trustworthiness of our payment platform. Users and merchants can verify that the price used for each transaction reflects the current market value, minimizing discrepancies and disputes. This use of Pyth not only powers our dapp but also establishes a higher standard for accuracy and reliability in onchain commerce.
+
+Why Our Integration Stands Out:
+- Leveraging Pyth for Real-World Impact: We have built our payment platform with the end user in mind, ensuring that Pyth’s technology enhances the overall user experience. By accurately pricing transactions and adding security through randomness, we are addressing real-world challenges in onchain commerce, such as price volatility and transaction.
 
 ### Non-Transferable ERC721 Tokens
 

@@ -3,9 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "npx thirdweb compile",
+    "deploy": "npx thirdweb deploy"
   },
-  "keywords": [],
+  "keywords": [
+    "crosschain-merchants-payment",
+    "smart-contract",
+    "ethereum",
+    "pyth"
+  ],
   "author": "",
   "license": "ISC",
   "description": "",
@@ -14,6 +21,8 @@
     "hardhat": "^2.22.6"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^5.0.2"
+    "@openzeppelin/contracts": "^4.8.2",
+    "@pythnetwork/pyth-sdk-solidity": "^4.0.0",
+    "thirdweb": "^5.45.1"
   }
 }

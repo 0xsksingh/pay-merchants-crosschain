@@ -5,22 +5,36 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
-import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
+import "@pythnetwork/pyth-sdk-solidity/IPyth.sol";
+import "@pythnetwork/pyth-sdk-solidity/PythStructs.sol";
+
 contract MerchantsPay is ERC721, Ownable, AccessControl, ReentrancyGuard {
+
+    IPyth pyth;
+    
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
 
-    string public baseURI = "https://crosspay.vercel.app/token.json?id=";
+    string public baseURI = "https://superhack-merchants-pay.vercel.app/token.json?id=";
 
     mapping(address => string) public pointers;
 
     event PointerSet(address indexed user, string pointer);
     event BaseURISet(string baseURI);
 
-    constructor() ERC721("Cross Pay", "CP") {
+    constructor(address pythContract) ERC721("CrossChain MerchantsPay", "CMP") {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _setupRole(ADMIN_ROLE, msg.sender);
+
+        // The IPyth interface from pyth-sdk-solidity provides the methods to interact with the Pyth contract.
+        // Instantiate it with the Pyth contract address from https://docs.pyth.network/price-feeds/contract-addresses/evm
+        pyth = IPyth(pythContract);
+    }
+
+    function setPythContract(address pythContract) public onlyRole(ADMIN_ROLE) {
+        pyth = IPyth(pythContract);
     }
 
     function setPointer(string memory pointerValue) public nonReentrant {
@@ -33,7 +47,7 @@ contract MerchantsPay is ERC721, Ownable, AccessControl, ReentrancyGuard {
         _safeMint(msg.sender, tokenId);
         emit PointerSet(msg.sender, pointerValue);
     }
-
+    
     function getPointer(address user) public view returns (string memory) {
         return pointers[user];
     }
@@ -68,5 +82,23 @@ contract MerchantsPay is ERC721, Ownable, AccessControl, ReentrancyGuard {
         }
         _safeMint(user, tokenId);
         emit PointerSet(user, pointerValue);
+    }
+
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl) returns (bool) {
+        return super.supportsInterface(interfaceId);
+    }
+
+    function getprices(bytes[] calldata priceUpdate) public payable {
+        // Submit a priceUpdate to the Pyth contract to update the on-chain price.
+        // Updating the price requires paying the fee returned by getUpdateFee.
+        // WARNING: These lines are required to ensure the getPriceNoOlderThan call below succeeds. If you remove them, transactions may fail with "0x19abf40e" error.
+        uint fee = pyth.getUpdateFee(priceUpdate);
+        pyth.updatePriceFeeds{ value: fee }(priceUpdate);
+    
+        // Read the current price from a price feed if it is less than 60 seconds old.
+        // Each price feed (e.g., ETH/USD) is identified by a price feed ID.
+        // The complete list of feed IDs is available at https://pyth.network/developers/price-feed-ids
+        bytes32 priceFeedId = 0xff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace; // ETH/USD
+        PythStructs.Price memory price = pyth.getPriceNoOlderThan(priceFeedId, 60);
     }
 }
