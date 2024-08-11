@@ -68,12 +68,12 @@ const Merchantpreference: React.FC = () => {
       ),
     })
 
-    const contractAddress = (
-      siteConfig.crosspayaddress as Record<number, `0x${string}`>
-    )[chainId]
-    if (!contractAddress) {
-      toast.error("Contract not deployed on this network")
-    }
+      const contractAddress = (
+        siteConfig.crosspayaddress as Record<number, `0x${string}`>
+      )[chainId]
+      if (!contractAddress) {
+        toast.error("Contract not deployed on this network")
+      }
 
     const [address] = await walletClient.getAddresses()
 

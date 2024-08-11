@@ -17,6 +17,8 @@ Mode Testnet - https://sepolia.explorer.mode.network/address/0xc8E2B6AC668AC47ff
 
 OP Sepolia Testnet - https://optimism-sepolia.blockscout.com/address/0x2AAC535db31DB35D13AECe36Ea7954A2089D55bE
 
+Fraxtal Testnet - https://holesky.fraxscan.com/address/0x301Ab38c7f652FA23C7Ba1fa182E36665Dac0fC2
+
 ## Features
 
 ### Simplified Cross-Chain Payments

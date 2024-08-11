@@ -10,7 +10,6 @@ import {
   ERC20_ABI,
   SPOKEPOOL_ABI,
   TOKEN_ADDRESS_BY_SYMBOL,
-  ZKBOB_DIRECT_DEPOSIT_ABI,
 } from "misc"
 import { createPublicClient, createWalletClient, custom, http } from "viem"
 import * as chains from "viem/chains"
@@ -78,10 +77,7 @@ export default function Home() {
 
     const chainId = await walletClient.getChainId()
 
-    const chain = CHAINS[chainId]
-
-    // const publicClient = () =>
-    //   configureChains([chain], [alchemyProvider({ apiKey: 'wFen0yW-EwjPyr49Cyg2x2nNARSt7Os0' })]).publicClient({ chainId: chainId })
+    const chain = CHAINS[chainId];
 
     const publicClient = createPublicClient({
       chain,
@@ -247,7 +243,7 @@ export default function Home() {
                       TOKEN_ADDRESS_BY_SYMBOL[paymentAsset][
                         (await getChainDetails()).chain.name.toLowerCase()
                       ],
-                      "0x1111111254eeb25477b68fb85ed929f73a960582"
+                      "0x1111111254eeb25477b68fb85ed929f73a960582" // 1inch router
                     )
                     const caller = (await getChainDetails()).address
                     const swapFromTokenAddress =
