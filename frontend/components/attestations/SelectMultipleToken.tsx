@@ -3,7 +3,7 @@ import React from "react"
 import MultipleSelector from "../ui/multiple-selector"
 import { assetsMap } from "@/constants/Assets"
 
-const SelectMultipleToken = ({ onChange }) => {
+const SelectMultipleToken = ({ onChange } : any) => {
 
   const OPTIONS: any[] = Object.keys(assetsMap).map((key) => ({
     label: key,
