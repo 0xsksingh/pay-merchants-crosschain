@@ -177,6 +177,8 @@ const Merchantpreference: React.FC = () => {
     const { chain } = await getChainDetails()
     try {
       setIsLoading(true)
+      console.log("Chain and Data", chain, data, JSON.stringify(data, null, 2))
+
       const response = await axios.post("/api/store", {
         data: JSON.stringify(data, null, 2),
       })
@@ -200,7 +202,7 @@ const Merchantpreference: React.FC = () => {
       }
     } catch (error) {
       toast.error("Error storing data")
-      console.log(error)
+      console.log("error", error)
       console.log((error as any).stack)
     } finally {
       setIsLoading(false)

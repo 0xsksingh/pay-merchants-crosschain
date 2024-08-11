@@ -4,9 +4,9 @@
 
 ## Overview
 
-Cross Pay is an innovative cross-chain payment solution designed to bridge the gap between merchants and customers by providing a seamless, preference-based payment experience. By integrating with multiple blockchain plugins and utilizing the power of the SwapKit API and SDK, ThorSwap, ChainFlip, and MayoChain, Cross Pay ensures a secure, efficient, and versatile payment method for all parties involved.
+Merchants Pay is an innovative cross-chain payment solution designed to bridge the gap between merchants and customers by providing a seamless, preference-based payment experience. By integrating with multiple blockchain plugins and utilizing the power of the SwapKit API and SDK, ThorSwap, ChainFlip, and MayoChain, Cross Pay ensures a secure, efficient, and versatile payment method for all parties involved.
 
-Cross Pay leverages advanced blockchain technology to deliver a comprehensive payment solution that caters to the needs of both merchants and users.
+Merchants Pay leverages advanced blockchain technology to deliver a comprehensive payment solution that caters to the needs of both merchants and users.
 
 
 ## Contract Deployments via create2  
