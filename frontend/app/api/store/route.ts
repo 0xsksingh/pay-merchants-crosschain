@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from "next/server"
 import { PinataSDK } from "pinata"
-import { Web3Storage } from "web3.storage"
 
-export const config = {
+const config = {
   api: {
     bodyParser: false,
   },
 }
 
-export const pinata = new PinataSDK({
+const pinata = new PinataSDK({
   pinataJwt: `${process.env.NEXT_PUBLIC_APP_PINATA_JWT}`,
   pinataGateway: `${process.env.NEXT_PUBLIC_APP_GATEWAY_URL}`,
 })
