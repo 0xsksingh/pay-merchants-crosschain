@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import TabSet from "components/TabSet"
 import { ToastContainer, toast } from "react-toastify"
 
 import "react-toastify/dist/ReactToastify.css"
@@ -444,7 +443,6 @@ export default function Home() {
 
   return (
     <>
-      <TabSet />
       <div className="mx-auto my-8 max-w-md rounded-lg bg-white p-4 shadow-lg">
         <input
           className="mb-2 w-full rounded border p-2"

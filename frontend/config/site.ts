@@ -1,18 +1,11 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "Next.js",
+  name: "Cross-Chain MerchantsPay",
   description:
     "Beautifully designed components that you can copy and paste into your apps. Accessible. Customizable. Open Source.",
   mainNav: [
-    {
-      title: "Home",
-      href: "/",
-    },
-    {
-      title: 'Attestation',
-      href: '/create-attestation'
-    }
+
   ],
   links: {
     twitter: "https://twitter.com/0xkamal7",

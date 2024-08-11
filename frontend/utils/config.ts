@@ -1,8 +1,9 @@
 import { http } from 'wagmi'
-import { mainnet, sepolia } from 'wagmi/chains'
+import { baseSepolia, mainnet, modeTestnet, sepolia } from 'wagmi/chains'
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
 
-const chains = [mainnet, sepolia] as const
+const chains = [mainnet, sepolia , modeTestnet , baseSepolia] as const
+
 const metadata = {
     name: 'EAS Attestation',
     description: 'AppKit Example',
@@ -17,5 +18,7 @@ export const config = defaultWagmiConfig({
     transports: {
         [mainnet.id]: http(),
         [sepolia.id]: http(),
+        [modeTestnet.id]: http(),
+        [baseSepolia.id]: http(),
     },
 })

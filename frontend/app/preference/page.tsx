@@ -11,7 +11,6 @@ import { mainnet, polygon } from "viem/chains"
 import * as chains from "viem/chains"
 
 import { siteConfig } from "@/config/site"
-import TabSet from "@/components/TabSet"
 
 const CHAINS: Record<number, chains.Chain> = {
   [137]: chains.polygon,
@@ -262,7 +261,6 @@ const Merchantpreference: React.FC = () => {
 
   return (
     <>
-      <TabSet />
       <div className="p-4">
         <h1 className="mb-4 text-2xl font-bold">
           Configure Merchant Preferences

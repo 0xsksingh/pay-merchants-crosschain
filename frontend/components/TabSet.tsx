@@ -10,7 +10,8 @@ export default function TabSet() {
   }, []);
 
   const tabs = [
-    { name: 'CrossPay', href: '/', current: !onConfigurePage },
+    { name: 'PaytoMerchant', href: '/', current: !onConfigurePage },
+    { name: 'Attestation', href: '/create-attestation', current: false },
     { name: 'Set Preference', href: '/preference', current: onConfigurePage },
   ];
 
@@ -27,7 +28,7 @@ export default function TabSet() {
         <select
           id="tabs"
           name="tabs"
-          className="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+          className="block w-60 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
           defaultValue={tabs.find((tab) => tab.current)?.name}>
           {tabs.map((tab) => (
             <option key={tab.name}>{tab.name}</option>
