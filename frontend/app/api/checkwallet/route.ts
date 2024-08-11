@@ -1,17 +1,17 @@
 import axios from 'axios'
-import { NextApiRequest, NextApiResponse  } from 'next'
-
 import { NextRequest , NextResponse } from 'next/server'
+
 export async function GET(req: NextRequest, res: NextResponse) {
   if (req.method === 'GET') {
 
     console.log("helllo from wallet")
-    const blockchain = 'polygon'
+    const blockchain = 'base'
     const tokenAddress = '0x74156E7CCe407169797053E1A1A17B0C1F920a90'
+    console.log(req,"req")
 
-    const { query } = await req.json();
 
-    const userAddress = query.userAddress as string
+const userAddress = req.url.trimEnd().split('=').pop()
+console.log("userAddress", userAddress)
 
     const airstackRes = await axios({
       method: 'post',
@@ -71,7 +71,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
         data = text
       }
     }
-NextResponse.json({ data : data})
+    NextResponse.json({ data : data})
     // res.json({ data: data })
   } else {
     NextResponse.json({error: 'Only GET requests are allowed' })

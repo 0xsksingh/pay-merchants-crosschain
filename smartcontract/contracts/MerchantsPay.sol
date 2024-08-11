@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: MIT
-// Created by @kamalbuilds for DoraHacks CrossChain Summer 2024 hackathon
 
 pragma solidity ^0.8.0;
 
@@ -9,7 +8,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract CrossPay is ERC721, Ownable, AccessControl, ReentrancyGuard {
+contract MerchantsPay is ERC721, Ownable, AccessControl, ReentrancyGuard {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
 
     string public baseURI = "https://crosspay.vercel.app/token.json?id=";

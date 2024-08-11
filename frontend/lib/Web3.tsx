@@ -10,9 +10,7 @@ interface Props {
   children: ReactNode
 }
 
-const projectId =
-  process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ??
-  "ebc8b79c899ea9b36db43c39aea67728"
+const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? "ebc8b79c899ea9b36db43c39aea67728"
 
 export function Web3Provider(props: Props) {
   const [ready, setReady] = useState(false)
