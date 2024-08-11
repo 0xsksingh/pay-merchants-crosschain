@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify"
 
 import "react-toastify/dist/ReactToastify.css"
 import axios from "axios"
-import { ethers } from "ethers"
+import { BrowserProvider, ethers } from "ethers"
 import {
   ERC20_ABI,
   SPOKEPOOL_ABI,
@@ -15,6 +15,7 @@ import {
 } from "misc"
 import { createPublicClient, createWalletClient, custom, http } from "viem"
 import * as chains from "viem/chains"
+
 
 type AssetType = "WETH" | "SDAI" | "BTC" | "USDC" | "USDT"
 
@@ -31,8 +32,8 @@ interface TransactionStatus {
 const CHAINS: Record<number, chains.Chain> = {
   [137]: chains.polygon,
   [1]: chains.mainnet,
-  [1101]: chains.polygonZkEvm,
   [100]: chains.gnosis,
+  [919] : chains.modeTestnet,
 }
 
 const chainIdByName: Record<string, number> = {
@@ -124,11 +125,7 @@ export default function Home() {
     toast.info("Approval transaction sent, waiting for success...")
     while (true) {
       try {
-        // @ts-ignore
-        await (await getChainDetails())
-          .publicClient()
-          .waitForTransactionReceipt({ hash: txnHash })
-        break
+        txnHash = await (await getChainDetails()).walletClient.writeContract(writeContractArgs)
       } catch (error) {
         // async sleep 3 seconds
         await new Promise((resolve) => setTimeout(resolve, 3000))
@@ -166,12 +163,8 @@ export default function Home() {
     toast.info("Transaction sent, waiting for success...")
     while (true) {
       try {
-        // @ts-ignore
-        await (await getChainDetails())
-          .publicClient()
-          .waitForTransactionReceipt({ hash: txnHash })
-        break
-      } catch (error) {
+        txnHash = await (await getChainDetails()).walletClient.writeContract(writeContractArgs)
+      }  catch (error) {
         // async sleep 3 seconds
         await new Promise((resolve) => setTimeout(resolve, 3000))
       }
@@ -291,12 +284,14 @@ export default function Home() {
                     console.log(sendForSwap)
                     // let txnHash = await walletClient.sendTransaction(sendForSwap)
                     // send txn using ethers
-                    const provider = new ethers.providers.Web3Provider(
+                    const provider = new BrowserProvider(
                       (window as any).ethereum
                     )
                     const signer = provider.getSigner()
                     let txn
                     try {
+                      // todo fix this error 
+                      // @ts-ignore
                       txn = await signer.sendTransaction(sendForSwap)
                     } catch (error) {
                       toast.error("failed to generate swap")
@@ -310,15 +305,11 @@ export default function Home() {
                     while (true) {
                       try {
                         // @ts-ignore
-                        await (await getChainDetails())
-                          .publicClient()
-                          .waitForTransactionReceipt({ hash: txnHash })
+                        await (await getChainDetails()).publicClient().waitForTransactionReceipt({ hash: txnHash })
                         break
                       } catch (error) {
                         // async sleep 3 seconds
-                        await new Promise((resolve) =>
-                          setTimeout(resolve, 3000)
-                        )
+                        await new Promise((resolve) => setTimeout(resolve, 3000))
                       }
                     }
                     toast.success("Swap transaction successful")
@@ -333,79 +324,6 @@ export default function Home() {
               }
             }
           } else {
-            if (preferredAsset.chain == "zkbob") {
-              status = {
-                status: "fail",
-                error: "Recipient wants to receive via zkBob",
-                suggestion: {
-                  description: `To complete this transaction, complete a zkBob direct deposit`,
-                  actionText: "Direct deposit",
-
-                  actionFunction: async () => {
-                    const zkbobDirectDepositContractAddress =
-                      "0x668c5286ead26fac5fa944887f9d2f20f7ddf289"
-                    await approve(
-                      TOKEN_ADDRESS_BY_SYMBOL[paymentAsset][
-                        (await getChainDetails()).chain.name.toLowerCase()
-                      ],
-                      zkbobDirectDepositContractAddress
-                    )
-
-                    let txnHash
-                    try {
-                      txnHash = await (
-                        await getChainDetails()
-                      ).walletClient.writeContract({
-                        account: (await getChainDetails()).address,
-                        address: zkbobDirectDepositContractAddress, // zkbob direct deposit contract
-                        abi: ZKBOB_DIRECT_DEPOSIT_ABI,
-                        chain:
-                          CHAINS[
-                            await (
-                              await getChainDetails()
-                            ).walletClient.getChainId()
-                          ],
-                        // @ts-ignore
-                        functionName: "directDeposit",
-                        args: [
-                          // fallbackUser
-                          (
-                            await getChainDetails()
-                          ).address,
-                          // amount
-                          paymentAmount,
-                          // zkAddress
-                          paymentDestinationAddress,
-                        ],
-                      })
-                    } catch (error) {
-                      toast.error(
-                        "Failed to submit zkBob direct deposit transaction"
-                      )
-                      return
-                    }
-                    toast.info(
-                      `Generated zkBob transaction, waiting for success...`
-                    )
-                    while (true) {
-                      try {
-                        // @ts-ignore
-                        await (await getChainDetails())
-                          .publicClient()
-                          .waitForTransactionReceipt({ hash: txnHash })
-                        break
-                      } catch (error) {
-                        // async sleep 3 seconds
-                        await new Promise((resolve) =>
-                          setTimeout(resolve, 3000)
-                        )
-                      }
-                    }
-                    toast.success("zkBob transaction successful")
-                  },
-                },
-              }
-            } else {
               console.log("incorrect chain -- need to bridge")
               status = {
                 status: "fail",
@@ -477,9 +395,7 @@ export default function Home() {
                     while (true) {
                       try {
                         // @ts-ignore
-                        await (await getChainDetails())
-                          .publicClient()
-                          .waitForTransactionReceipt({ hash: txnHash })
+                        await (await getChainDetails()).publicClient().waitForTransactionReceipt({ hash: txnHash })
                         break
                       } catch (error) {
                         // async sleep 3 seconds
@@ -495,9 +411,8 @@ export default function Home() {
             }
           }
 
-          break
         }
-      } else {
+      else {
         status = {
           status: "unknown",
           suggestion: {
