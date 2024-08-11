@@ -1,31 +1,36 @@
+import { NextRequest, NextResponse } from "next/server"
+import { PinataSDK } from "pinata"
+import { Web3Storage } from "web3.storage"
 
-import { NextRequest , NextResponse } from 'next/server'
-import { Web3Storage } from 'web3.storage'
-
-function getAccessToken(): string {
-  return process.env.WEB3STORAGE_TOKEN!
+export const config = {
+  api: {
+    bodyParser: false,
+  },
 }
 
-function makeStorageClient(): Web3Storage {
-  return new Web3Storage({ token: getAccessToken() })
-}
+export const pinata = new PinataSDK({
+  pinataJwt: `${process.env.NEXT_PUBLIC_APP_PINATA_JWT}`,
+  pinataGateway: `${process.env.NEXT_PUBLIC_APP_GATEWAY_URL}`,
+})
 
 export async function POST(req: NextRequest, res: NextResponse) {
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     try {
-      const storageClient = makeStorageClient()
-      const { body } = await req.json()
+      const { data } = await req.json()
 
-      const file = new File([body], 'data.txt', { type: 'text/plain' })
-      const cid = await storageClient.put([file])
-      return NextResponse.json({cid})
+      const file = new File([data], "data.txt", { type: "text/plain" })
+      const upload = await pinata.upload.file(file)
+
+      return NextResponse.json({ cid: upload.IpfsHash }, { status: 200 })
       // res.status(200).json({ cid })
     } catch (error) {
-      NextResponse.json({ error: 'Error storing data' })
+      console.log("Error >>>", error)
+
+      NextResponse.json({ error: "Error storing data" })
       // res.status(500).json({ error: 'Error storing data' })
     }
   } else {
-    NextResponse.json({ error: 'Only POST requests are allowed' })
+    NextResponse.json({ error: "Only POST requests are allowed" })
     // res.status(405).json({ error: 'Only POST requests are allowed' })
   }
 }
