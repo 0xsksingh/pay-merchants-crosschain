@@ -11,7 +11,9 @@ Merchants Pay leverages advanced blockchain technology to deliver a comprehensiv
 
 ## Contract Deployments via create2  
 
-Base Sepolia - https://base-sepolia.blockscout.com/address/0xC0204113CcC43D83De06191C082ea696C65466f9
+Base Sepolia - https://base-sepolia.blockscout.com/address/0x28d0F2353af7e357Eed9f960D1D2213Fa85a270e
+
+Rollup deployed via Conduit - https://explorer-paytomerchants-co4xglkw0h.t.conduit.xyz/address/0x2AAC535db31DB35D13AECe36Ea7954A2089D55bE
 
 Mode Testnet - https://sepolia.explorer.mode.network/address/0xc8E2B6AC668AC47ffE8814E86aDCb966C6AA3d5b
 
